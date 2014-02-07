@@ -1,0 +1,10 @@
+Linux, FreeBSD, OpenBSD:
+
+gcc -o onesixtyone onesixtyone.c
+
+Solaris:
+
+gcc -o onesixtyone onesixtyone.c -lsocket -lnsl
+
+Installation is not necessary, just run the program from the current directory.
+If you wish you may copy it to /usr/local/bin

@@ -1,0 +1,16 @@
+2004-01-05	onesixtyone 0.3.2
+	* fixed version number and added a Makefile
+
+2002-03-17	onesixtyone 0.3.1
+	* replaced in_addr_t with int, should fix compile problems on some
+	Linux distributions (thanks to skeruno)
+
+2002-03-14	onesixtyone 0.3
+
+	* compiles on FreeBSD (thanks to Eric Zerangue)
+	* compiles on OpenBSD (thanks to methodic)
+	* compiles on Solaris
+
+2002-03-01	onesixtyone 0.2
+
+	* initial public release
