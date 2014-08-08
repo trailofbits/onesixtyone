@@ -1,6 +1,8 @@
 onesixtyone
 ===========
 
+[![Build Status](https://travis-ci.org/trailofbits/onesixtyone.svg)](https://travis-ci.org/trailofbits/onesixtyone)
+
 The SNMP protocol is a stateless, datagram oriented protocol. An SNMP scanner is a program that sends SNMP requests to multiple IP addresses, trying different community strings and waiting for a reply. Unfortunately SNMP servers don't respond to requests with invalid community strings and the underlying UDP protocol does not reliably report closed UDP ports. This means that 'no response' from the probed IP address can mean either of the following:
 
 * machine unreachable
