@@ -34,7 +34,7 @@
 
 #define MAX_COMMUNITIES 1024
 #define MAX_HOSTS 65535
-#define MAX_COMMUNITY_SIZE 16
+#define MAX_COMMUNITY_SIZE 32
 
 char* snmp_errors[] = {
 	"NO ERROR",				/* 0 */
@@ -98,7 +98,7 @@ void read_communities(char* filename)
 	char ch;
 
 	if (o.debug > 0) printf("Using community file %s\n", filename);
-		
+
 	if ((fd = fopen(filename, "r")) == 0) {
 		printf("Error opening community file %s\n", filename);
 		exit(1);
@@ -121,7 +121,7 @@ void read_communities(char* filename)
 			exit(1);
 		}
 	}
-			
+
 	community_count = i;
 	fclose(fd);
 }
@@ -181,7 +181,7 @@ void init_options(int argc, char *argv[])
 	int community_file;
 
 	int arg, i;
-	
+
 	o.debug = 0;
 	o.log = 0;
 	o.quiet = 0;
@@ -219,7 +219,7 @@ void init_options(int argc, char *argv[])
 	}
 
 	if (!input_file) {
-		if (optind >= argc) { 
+		if (optind >= argc) {
 			usage();
 			exit(1);
 		}
@@ -253,7 +253,7 @@ void init_options(int argc, char *argv[])
 		usage();
 		exit(1);
 	}
-	
+
 	if (o.log) {
 		if ((o.log_fd = fopen(log_filename, "w")) == 0) {
 			printf("Error opening log file %s\n", log_filename);
@@ -263,14 +263,14 @@ void init_options(int argc, char *argv[])
 	} else if (o.quiet) {
 		printf("Warning: quiet mode specified without logging, you will lose your scan results\n");
 	}
-		
+
 	if (o.debug > 0) {
 		printf("%d communities:", community_count);
 		for (i=0; i < community_count; i++)
 			printf(" %s", community[i]);
 		printf("\n");
 	}
-	
+
 	if (o.debug > 0) printf("Waiting for %ld milliseconds between packets\n", o.wait);
 }
 
@@ -291,36 +291,36 @@ int build_snmp_req(char* buf, int buf_size, char* community)
 
 	buf[0] = 0x30;
 	buf[1] = 19 + strlen(community) + sizeof(object)-1;
-	
+
 	// Version: 1
 	buf[2] = 0x02;
 	buf[3] = 0x01;
 	buf[4] = 0x00;
-	
+
 	// Community
 	buf[5] = 0x04;
 	buf[6] = strlen(community);
 
 	strcpy((buf + 7), community);
 	i = 7 + strlen(community);
-	
+
 	// PDU type: GET
 	buf[i++] = 0xa0;
 	buf[i++] = 12 + sizeof(object)-1;
-	
+
 	// Request ID
-	buf[i++] = 0x02; 
+	buf[i++] = 0x02;
 	buf[i++] = 0x04;
 	buf[i++] = (char)((id >> 24) & 0xff);
 	buf[i++] = (char)((id >> 16) & 0xff);
 	buf[i++] = (char)((id >> 8) & 0xff);
 	buf[i++] = (char)((id >> 0) & 0xff);
-	
+
 	// Error status: no error
 	buf[i++] = 0x02;
 	buf[i++] = 0x01;
 	buf[i++] = 0x00;
-	
+
 	// Error index
 	buf[i++] = 0x02;
 	buf[i++] = 0x01;
@@ -349,7 +349,7 @@ int parse_asn_length(u_char* buf, int buf_size, int* i)
 		logf("Unable to decode SNMP packet: buffer overflow\n");
 		return -1;
 	}
-	
+
 	if (buf[*i] < 0x81) {
 		len = buf[*i];
 		*i += 1;
@@ -405,7 +405,7 @@ int parse_asn_length(u_char* buf, int buf_size, int* i)
 int skip_asn_length(u_char* buf, int buf_size, int* i)
 {
 	int ret;
-	
+
 	if ((ret = parse_asn_length(buf, buf_size, i)) > 0)
 		*i += ret;
 
@@ -556,7 +556,7 @@ int parse_snmp_pdu(u_char* buf, int buf_size, int* i)
 		logf("Unable to decode SNMP packet: PDU type not RESPONSE (0xa2)\n");
 		return -1;
 	}
-	
+
 	if (parse_asn_length(buf, buf_size, i) < 0)
 		return -1;
 
@@ -599,7 +599,7 @@ int parse_snmp_errorcode(u_char* buf, int buf_size, int* i)
 		if (ret < 0 || ret > 18) {
 			logf("Unable to decode SNMP packet: error code invalid\n");
 			return -1;
-		}			
+		}
 		logf("Host responded with error %s\n", snmp_errors[ret]);
 		return -1;
 	}
@@ -688,10 +688,10 @@ void parse_snmp_response(u_char* buf, int buf_size)
 	if (parse_snmp_requestid(buf, buf_size, &i) == -1) return;
 	if (parse_snmp_errorcode(buf, buf_size, &i) == -1) return;
 	if (parse_snmp_errorindex(buf, buf_size, &i) == -1) return;
-		
+
 	if (i+3 <= buf_size && buf[i] == 0x00 && buf[i+1] == 0x30 && buf[i+2] == 0x20)	// Bug in an HP JetDirect
 		i += 3;
-	
+
 	if (parse_snmp_objheader(buf, buf_size, &i) == -1) return;
 	if (parse_snmp_objheader(buf, buf_size, &i) == -1) return;		// yes, this should be called twice
 	if (parse_snmp_objheader6(buf, buf_size, &i) == -1) return;
@@ -705,7 +705,7 @@ void parse_snmp_response(u_char* buf, int buf_size)
  * Return 1 if the difference is negative, otherwise 0.
  */
 
-inline int timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
+static inline int timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
 {
 	int nsec;
 
@@ -724,7 +724,7 @@ inline int timeval_subtract (struct timeval *result, struct timeval *x, struct t
 	/* Compute the time remaining to wait. tv_usec is certainly positive. */
 	result->tv_sec = x->tv_sec - y->tv_sec;
 	result->tv_usec = x->tv_usec - y->tv_usec;
-	
+
 	/* Return 1 if result is negative. */
 	return x->tv_sec < y->tv_sec;
 }
@@ -747,19 +747,19 @@ void receive_snmp(int sock, long wait, struct sockaddr_in* remote_addr)
 
 	tv_wait.tv_sec = wait / 1000;
 	tv_wait.tv_usec = wait % 1000 * 1000;
-	
+
 	do {
 		/* Put the socket into the fd set */
 		FD_ZERO(&fds);
 		FD_SET(sock, &fds);
-	
+
 		if ((ret = select(sock+1, &fds, NULL, NULL, &tv_wait)) == -1) {
 			printf("Error in pselect\n");
 			exit(1);
 		} else if (ret > 0) {
 			memset(&buf, 0x0, sizeof(buf));
 			remote_addr_len = sizeof(*remote_addr);
-	
+
 			ret = recvfrom(sock, &buf, sizeof(buf), 0, (struct sockaddr*)remote_addr, &remote_addr_len);
 				if (ret < 0) {
 				printf("Error in recvfrom\n");
@@ -795,19 +795,19 @@ int main(int argc, char* argv[])
 	local_addr.sin_family = AF_INET;
 	local_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	local_addr.sin_port = htons(0);
-	
+
 	ret = bind(sock, (struct sockaddr *)&local_addr, sizeof(local_addr));
 	if (ret < 0) {
 		printf("Error binding socket\n");
 		exit(1);
 	}
-	
+
 	/* remote address */
 	remote_addr.sin_family = AF_INET;
 	remote_addr.sin_port = htons(161);
 
 	printf("Scanning %d hosts, %d communities\n", host_count, community_count);
-	
+
 	for (c=0; c < community_count; c++) {
 		if (o.debug > 0) printf("Trying community %s\n", community[c]);
 
@@ -826,7 +826,7 @@ int main(int argc, char* argv[])
 			receive_snmp(sock, o.wait, &remote_addr);
 		}
 	}
-	
+
 	if (o.debug > 0) printf("All packets sent, waiting for responses.\n");
 
 	/* wait for 5 seconds */
