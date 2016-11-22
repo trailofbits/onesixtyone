@@ -794,11 +794,7 @@ void parse_snmp_response(u_char* buf, int buf_size)
  * Return 1 if the difference is negative, otherwise 0.
  */
 
-<<<<<<< HEAD
-static inline int timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
-=======
 int timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
->>>>>>> upstream/master
 {
 	int nsec;
 
@@ -911,11 +907,6 @@ int main(int argc, char* argv[])
 
   if (!o.quiet) printf("Scanning %d hosts, %d communities\n", host_count, community_count);
 
-<<<<<<< HEAD
-	printf("Scanning %d hosts, %d communities\n", host_count, community_count);
-
-=======
->>>>>>> upstream/master
 	for (c=0; c < community_count; c++) {
 		if (o.debug > 0) printf("Trying community %s\n", community[c]);
 
