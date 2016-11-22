@@ -6,6 +6,7 @@ IBM
 OrigEquipMfr
 SNMP
 SUN
+TENmanUFactOryPOWER
 access
 admin
 agent
