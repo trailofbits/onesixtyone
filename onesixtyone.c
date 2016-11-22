@@ -83,7 +83,7 @@ struct {
 
 void usage()
 {
-  int i;
+  size_t i;
 	printf("onesixtyone 0.3.2 [options] <host> <community>\n");
 	printf("  -c <communityfile> file with community names to try\n");
 	printf("  -i <inputfile>     file with target hosts\n");
@@ -143,16 +143,15 @@ int add_host(const char *ipmask)
   char *slash;
   struct addrinfo hints;
   struct addrinfo *result = NULL;
-  unsigned long longtmp, i, ips;
+  in_addr_t longtmp;
+  unsigned long i, ips;
   struct in_addr startaddr;
   struct in_addr endaddr;
-  int netmask;
+  int netmask = 32;
 
   addr = strdup(ipmask);
   slash = strchr(addr, '/');
-  if (slash == NULL) {
-    netmask = 32;
-  } else {
+  if (slash != NULL) {
     netmask = atoi(slash + 1);
     if (netmask <= 0 || netmask > 32) {
       goto OUT;
@@ -175,8 +174,8 @@ int add_host(const char *ipmask)
   }
 
   longtmp = ntohl(((struct sockaddr_in *)result->ai_addr)->sin_addr.s_addr);
-  startaddr.s_addr = longtmp & (unsigned long) (0 - (1<<(32 - netmask)));
-  endaddr.s_addr = longtmp | (unsigned long)  ((1<<(32 - netmask)) - 1);
+  startaddr.s_addr = longtmp & (0 - (1<<(32 - netmask)));
+  endaddr.s_addr = longtmp | ((1<<(32 - netmask)) - 1);
   if (startaddr.s_addr > endaddr.s_addr) {
     goto OUT;
   }
@@ -276,7 +275,12 @@ void init_options(int argc, char *argv[])
 			case 'o' :	o.log = 1;
 						strncpy(log_filename, optarg, sizeof(log_filename));
 						break;
-      case 'p' :	o.port = atoi(optarg);
+      case 'p' :	if (strtol(optarg, NULL, 10) == 0) {
+                    printf("Malformed port: %s\n", optarg);
+                    exit(1);
+                  } else {
+                    o.port = strtol(optarg, NULL, 10);
+                  }
             break;
       case 's' :	o.print_ip = 1;
             break;
