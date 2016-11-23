@@ -2,7 +2,23 @@ dist: trusty
 sudo: false
 group: beta
 language: c
-script: make onesixtyone
 compiler:
   - clang
   - gcc
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+script: make onesixtyone
+
+env:
+  global:
+   - secure: "abOgeVMbdhZ+jR89TO4OFmVhxP+hle56wHnP2er20YTt/BCBCJB2CfNm/+HMgxdtBdGgxYwFUBtPiun7sKecaZJlu1CA7G+1vcpHrm+TeJvBK9eiyA300ts591uc+qS0ugtSmt931kVzpN9HNeKQqgotWoFALCtmlCr28wRO//Q="
+
+addons:
+  coverity_scan:
+    project:
+      name: "trailofbits/onesixtyone"
+      description: "Build submitted via Travis CI"
+    notification_email: dan@trailofbits.com
+    build_command:   "make onesixtyone"
+    branch_pattern: coverity_scan
