@@ -1,3 +1,9 @@
+2016-11-22	onesixtyone 0.3.3
+	* support netmasks
+	* add -p, -s options for custom port and short mode respectively
+	* fix bugs with long inputs
+	* migrate logf to logr
+
 2004-01-05	onesixtyone 0.3.2
 	* fixed version number and added a Makefile
 

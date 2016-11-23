@@ -1,4 +1,4 @@
-/*  onesixtyone version 0.3.2
+/*  onesixtyone version 0.3.3
     Copyright (C) 2002,2003  solareclipse@phreedom.org
 
     This program is free software; you can redistribute it and/or modify
@@ -84,7 +84,7 @@ struct {
 void usage()
 {
   size_t i;
-	printf("onesixtyone 0.3.2 [options] <host> <community>\n");
+	printf("onesixtyone 0.3.3 [options] <host> <community>\n");
 	printf("  -c <communityfile> file with community names to try\n");
 	printf("  -i <inputfile>     file with target hosts\n");
 	printf("  -o <outputfile>    output log\n");
