@@ -1,6 +1,5 @@
 dist: trusty
-sudo: false
-group: beta
+sudo: required
 language: c
 compiler:
   - clang
