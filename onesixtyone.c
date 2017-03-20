@@ -83,7 +83,7 @@ struct {
 
 void usage()
 {
-  size_t i;
+  int i;
 	printf("onesixtyone 0.3.3 [options] <host> <community>\n");
 	printf("  -c <communityfile> file with community names to try\n");
 	printf("  -i <inputfile>     file with target hosts\n");
@@ -200,7 +200,7 @@ void read_hosts(char* filename)
 	FILE* fd;
 	char buf[100];
 	char ch;
-	int c;
+	size_t c;
 
 	if (strcmp(filename, "-") == 0) {
 		if (o.debug > 0) printf("Reading hosts from stdin\n");
@@ -354,14 +354,14 @@ void init_options(int argc, char *argv[])
 	if (o.debug > 0) printf("Waiting for %ld milliseconds between packets\n", o.wait);
 }
 
-int build_snmp_req(char* buf, int buf_size, char* community)
+int build_snmp_req(char* buf, size_t buf_size, char* target_community)
 {
 	int i;
 	static int id;
 	char object[] = "\x30\x0e\x30\x0c\x06\x08\x2b\x06\x01\x02\x01\x01\x01\x0\x05\x00";
 
-	if (21 + strlen(community) + strlen(object) > buf_size) {
-		printf("SNMP packet length exceeded.\nCommunity: %s\nObject: %s\n", community, object);
+	if (21 + strlen(target_community) + strlen(object) > buf_size) {
+		printf("SNMP packet length exceeded.\nCommunity: %s\nObject: %s\n", target_community, object);
 		exit(1);
 	}
 
@@ -370,7 +370,7 @@ int build_snmp_req(char* buf, int buf_size, char* community)
 	memset(buf, 0, buf_size);
 
 	buf[0] = 0x30;
-	buf[1] = 19 + strlen(community) + sizeof(object)-1;
+	buf[1] = 19 + strlen(target_community) + sizeof(object)-1;
 
 	// Version: 1
 	buf[2] = 0x02;
@@ -379,10 +379,10 @@ int build_snmp_req(char* buf, int buf_size, char* community)
 
 	// Community
 	buf[5] = 0x04;
-	buf[6] = strlen(community);
+	buf[6] = strlen(target_community);
 
-	strcpy((buf + 7), community);
-	i = 7 + strlen(community);
+	strcpy((buf + 7), target_community);
+	i = 7 + strlen(target_community);
 
 	// PDU type: GET
 	buf[i++] = 0xa0;
