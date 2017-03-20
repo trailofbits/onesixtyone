@@ -121,7 +121,7 @@ void read_communities(char* filename)
 			community[i][c] = '\0';
 			if (c > 0) {
 				i++; c = 0;
-				community[i] = (char*)malloc(16);
+				community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
 			}
 		} else {
 			community[i][c++] = ch;
