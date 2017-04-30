@@ -87,17 +87,17 @@ void usage()
 	printf("  -c <communityfile> file with community names to try\n");
 	printf("  -i <inputfile>     file with target hosts\n");
 	printf("  -o <outputfile>    output log\n");
-  printf("  -p                 specify an alternate destination SNMP port\n");
+	printf("  -p                 specify an alternate destination SNMP port\n");
 	printf("  -d                 debug mode, use twice for more information\n\n");
-  printf("  -s                 short mode, only print IP addresses\n\n");
+	printf("  -s                 short mode, only print IP addresses\n\n");
 	printf("  -w n               wait n milliseconds (1/1000 of a second) between sending packets (default 10)\n");
 	printf("  -q                 quiet mode, do not print log to stdout, use with -l\n");
-  printf("host is either an IPv4 address or an IPv4 address and a netmask\n");
-  printf("default community names are:");
-  for (i = 0; i < community_count; i++) printf(" %s", community[i]);
-  printf("\n\n");
-  printf("examples: onesixtyone 192.168.4.0/24 public\n");
-  printf("          onesixtyone -c dict.txt -i hosts -o my.log -w 100\n\n");
+  	printf("host is either an IPv4 address or an IPv4 address and a netmask\n");
+  	printf("default community names are:");
+  	for (i = 0; i < community_count; i++) printf(" %s", community[i]);
+  	printf("\n\n");
+  	printf("examples: onesixtyone 192.168.4.0/24 public\n");
+  	printf("          onesixtyone -c dict.txt -i hosts -o my.log -w 100\n\n");
 }
 
 void read_communities(char* filename)
@@ -115,7 +115,7 @@ void read_communities(char* filename)
 
 	i = 0; c = 0;
 	community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
-	while ((ch = fgetc(fd)) != EOF) {
+	while ((ch = fgetc(fd)) != EOF && i < MAX_COMMUNITIES) {
 		if (ch == '\n' || ch == ' ' || ch == '\t') {
 			community[i][c] = '\0';
 			if (c > 0) {
@@ -129,6 +129,10 @@ void read_communities(char* filename)
 			printf("Community string too long\n");
 			exit(1);
 		}
+	}
+
+	if (i == MAX_COMMUNITIES){
+		printf("MAX_COMMUNITIES (%d) reached. Remaining communities will be skipped \n",i);
 	}
 
 	community_count = i;
