@@ -15,7 +15,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -33,7 +32,7 @@
 #define INADDR_NONE -1
 #endif
 
-#define MAX_COMMUNITIES 1024
+#define MAX_COMMUNITIES 16384
 #define MAX_HOSTS 65535
 #define MAX_COMMUNITY_SIZE 32
 
