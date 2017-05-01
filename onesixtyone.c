@@ -16,6 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 #include <stdio.h>
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,11 +62,10 @@ char* snmp_errors[] = {
 struct {
 	int debug;
 	int log;
-  int port;
-  int print_ip;
+    int port;
+    int print_ip;
 	int quiet;
 	long wait;
-
 	FILE* log_fd;
 } o;
 
@@ -96,6 +96,10 @@ void usage()
   	printf("default community names are:");
   	for (i = 0; i < community_count; i++) printf(" %s", community[i]);
   	printf("\n\n");
+  	printf("Max number of hosts : \t%d\n",MAX_HOSTS);
+  	printf("Max community lenght: \t%d\n",MAX_COMMUNITY_SIZE);
+  	printf("Max number of communities: \t%d\n",MAX_COMMUNITY_SIZE);
+  	printf("\n\n");
   	printf("examples: onesixtyone 192.168.4.0/24 public\n");
   	printf("          onesixtyone -c dict.txt -i hosts -o my.log -w 100\n\n");
 }
@@ -113,25 +117,20 @@ void read_communities(char* filename)
 		exit(1);
 	}
 
-	i = 0; c = 0;
-	community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
-	while ((ch = fgetc(fd)) != EOF && i < MAX_COMMUNITIES) {
-		if (ch == '\n' || ch == ' ' || ch == '\t') {
-			community[i][c] = '\0';
-			if (c > 0) {
-				i++; c = 0;
-				community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
-			}
-		} else {
-			community[i][c++] = ch;
-		}
-		if (c > MAX_COMMUNITY_SIZE-1) {
-			printf("Community string too long\n");
-			exit(1);
-		}
+	const int max_c = MAX_COMMUNITY_SIZE - 1;
+	for (i = 0; i < MAX_COMMUNITIES && !feof(fd); ++i) {
+	  community[i] = (char*) malloc(MAX_COMMUNITY_SIZE);
+	  community[i][0] = '\0';
+	  for (c = 0; (ch = fgetc(fd)) != EOF && !isspace(ch); ++c) {
+	    if (c < max_c) {
+	      community[i][c] = (char) ch;
+	      community[i][c + 1] = '\0';
+	    }
+	  }
+	  community[i][max_c] = '\0';
 	}
 
-	if (i == MAX_COMMUNITIES){
+	if (o.debug && i == MAX_COMMUNITIES){
 		printf("MAX_COMMUNITIES (%d) reached. Remaining communities will be skipped \n",i);
 	}
 
