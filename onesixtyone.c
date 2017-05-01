@@ -96,9 +96,9 @@ void usage()
   	printf("default community names are:");
   	for (i = 0; i < community_count; i++) printf(" %s", community[i]);
   	printf("\n\n");
-  	printf("Max number of hosts : \t%d\n",MAX_HOSTS);
-  	printf("Max community lenght: \t%d\n",MAX_COMMUNITY_SIZE);
-  	printf("Max number of communities: \t%d\n",MAX_COMMUNITY_SIZE);
+  	printf("Max number of hosts : \t\t%d\n",MAX_HOSTS);
+  	printf("Max community lenght: \t\t%d\n",MAX_COMMUNITY_SIZE);
+  	printf("Max number of communities: \t%d\n",MAX_COMMUNITIES);
   	printf("\n\n");
   	printf("examples: onesixtyone 192.168.4.0/24 public\n");
   	printf("          onesixtyone -c dict.txt -i hosts -o my.log -w 100\n\n");
