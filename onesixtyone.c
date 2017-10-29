@@ -108,7 +108,7 @@ void read_communities(char* filename)
 {
   FILE* fd;
   int i, c;
-  char ch;
+  int ch;
 
   if (o.debug > 0) printf("Using community file %s\n", filename);
 
@@ -201,7 +201,7 @@ void read_hosts(char* filename)
 {
   FILE* fd;
   char buf[100];
-  char ch;
+  int ch;
   size_t c;
 
   if (strcmp(filename, "-") == 0) {
