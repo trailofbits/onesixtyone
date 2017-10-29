@@ -120,14 +120,16 @@ void read_communities(char* filename)
   const int max_c = MAX_COMMUNITY_SIZE - 1;
   for (i = 0; i < MAX_COMMUNITIES && !feof(fd); ++i) {
     community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
-    community[i][0] = '\0';
-    for (c = 0; (ch = fgetc(fd)) != EOF && !isspace(ch); ++c) {
-      if (c < max_c) {
-        community[i][c] = (char)ch;
-        community[i][c + 1] = '\0';
-      }
+    if (community[i] != NULL) {
+        community[i][0] = '\0';
+        for (c = 0; (ch = fgetc(fd)) != EOF && !isspace(ch); ++c) {
+          if (c < max_c) {
+            community[i][c] = (char)ch;
+            community[i][c + 1] = '\0';
+          }
+        }
+        community[i][max_c] = '\0';
     }
-    community[i][max_c] = '\0';
   }
 
   if (o.debug && i == MAX_COMMUNITIES) {
