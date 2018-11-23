@@ -119,7 +119,15 @@ void read_communities(char* filename)
 
   const int max_c = MAX_COMMUNITY_SIZE - 1;
   for (i = 0; i < MAX_COMMUNITIES && !feof(fd); ++i) {
-    community[i] = (char*)malloc(MAX_COMMUNITY_SIZE);
+    char* ptr = (char*)malloc(MAX_COMMUNITY_SIZE);
+
+    if (!ptr) {
+        fprintf(stderr, "Failed to allocate memory for community string %d\n", i);
+        exit(-1);
+    }
+
+    community[i] = ptr;
+
     community[i][0] = '\0';
     for (c = 0; (ch = fgetc(fd)) != EOF && !isspace(ch); ++c) {
       if (c < max_c) {
