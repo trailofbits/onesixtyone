@@ -34,7 +34,7 @@
 #endif
 
 #define MAX_COMMUNITIES 16384
-#define MAX_HOSTS 65535
+#define MAX_HOSTS 16777215
 #define MAX_COMMUNITY_SIZE 32
 
 char* snmp_errors[] = {
@@ -200,7 +200,7 @@ OUT:
 void read_hosts(char* filename)
 {
   FILE* fd;
-  char buf[100];
+  char buf[65535];
   char ch;
   size_t c;
 
@@ -219,8 +219,9 @@ void read_hosts(char* filename)
   host_count = 0;
   c = 0; ch = 0;
 
-  while ((ch = fgetc(fd)) != EOF) {
-    if (ch == '\n' || ch == ' ' || ch == '\t') {
+  while (1) {
+    ch = fgetc(fd);
+    if (ch == '\n' || ch == ' ' || ch == '\t' || ch == EOF) {
       buf[c] = '\0';
       if (c > 0) {			/* skip blank lines */
         if (add_host((const char*)&buf) == -1) {
@@ -231,12 +232,15 @@ void read_hosts(char* filename)
       }
     }
     else {
-      buf[c++] = ch;
+      if (ch != '\r')
+        buf[c++] = ch;
     }
     if (c > sizeof(buf) - 1) {
       printf("IP address too long\n");
       exit(1);
     }
+    if (ch == EOF)
+      break;
   }
 
   if (fd != stdin) fclose(fd);
@@ -313,7 +317,7 @@ void init_options(int argc, char *argv[])
       printf("Malformed IP address: %s\n", argv[optind - 1]);
       exit(1);
     }
-    host_count = 1;
+    // host_count = 1;
     if (o.debug > 0) printf("Target ip read from command line: %s\n", argv[optind - 1]);
   }
   else {
