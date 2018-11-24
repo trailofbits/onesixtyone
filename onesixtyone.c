@@ -34,7 +34,7 @@
 #endif
 
 #define MAX_COMMUNITIES 16384
-#define MAX_HOSTS 16777215
+#define MAX_HOSTS 65535
 #define MAX_COMMUNITY_SIZE 32
 
 char* snmp_errors[] = {
@@ -200,7 +200,7 @@ OUT:
 void read_hosts(char* filename)
 {
   FILE* fd;
-  char buf[65535];
+  char buf[100];
   char ch;
   size_t c;
 
@@ -219,7 +219,7 @@ void read_hosts(char* filename)
   host_count = 0;
   c = 0; ch = 0;
 
-  while (1) {
+  do {
     ch = fgetc(fd);
     if (ch == '\n' || ch == ' ' || ch == '\t' || ch == EOF) {
       buf[c] = '\0';
@@ -231,17 +231,14 @@ void read_hosts(char* filename)
         c = 0;
       }
     }
-    else {
-      if (ch != '\r')
+    else if (ch != '\r') {
         buf[c++] = ch;
     }
     if (c > sizeof(buf) - 1) {
       printf("IP address too long\n");
       exit(1);
     }
-    if (ch == EOF)
-      break;
-  }
+  } while (ch != EOF);
 
   if (fd != stdin) fclose(fd);
 
