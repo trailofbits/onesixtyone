@@ -232,7 +232,7 @@ void read_hosts(char* filename)
       }
     }
     else if (ch != '\r') {
-        buf[c++] = ch;
+      buf[c++] = ch;
     }
     if (c > sizeof(buf) - 1) {
       printf("IP address too long\n");
