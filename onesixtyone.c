@@ -314,7 +314,7 @@ void init_options(int argc, char *argv[])
       printf("Malformed IP address: %s\n", argv[optind - 1]);
       exit(1);
     }
-    // host_count = 1;
+
     if (o.debug > 0) printf("Target ip read from command line: %s\n", argv[optind - 1]);
   }
   else {
