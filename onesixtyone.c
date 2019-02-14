@@ -97,7 +97,7 @@ void usage()
   for (i = 0; i < community_count; i++) printf(" %s", community[i]);
   printf("\n\n");
   printf("Max number of hosts : \t\t%d\n", MAX_HOSTS);
-  printf("Max community lenght: \t\t%d\n", MAX_COMMUNITY_SIZE);
+  printf("Max community length: \t\t%d\n", MAX_COMMUNITY_SIZE);
   printf("Max number of communities: \t%d\n", MAX_COMMUNITIES);
   printf("\n\n");
   printf("examples: onesixtyone 192.168.4.0/24 public\n");
