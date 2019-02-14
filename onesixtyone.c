@@ -227,8 +227,9 @@ void read_hosts(char* filename)
   host_count = 0;
   c = 0; ch = 0;
 
-  while ((ch = fgetc(fd)) != EOF) {
-    if (ch == '\n' || ch == ' ' || ch == '\t') {
+  do {
+    ch = fgetc(fd);
+    if (ch == '\n' || ch == ' ' || ch == '\t' || ch == EOF) {
       buf[c] = '\0';
       if (c > 0) {			/* skip blank lines */
         if (add_host((const char*)&buf) == -1) {
@@ -238,14 +239,14 @@ void read_hosts(char* filename)
         c = 0;
       }
     }
-    else {
+    else if (ch != '\r') {
       buf[c++] = ch;
     }
     if (c > sizeof(buf) - 1) {
       printf("IP address too long\n");
       exit(1);
     }
-  }
+  } while (ch != EOF);
 
   if (fd != stdin) fclose(fd);
 
@@ -321,7 +322,7 @@ void init_options(int argc, char *argv[])
       printf("Malformed IP address: %s\n", argv[optind - 1]);
       exit(1);
     }
-    host_count = 1;
+
     if (o.debug > 0) printf("Target ip read from command line: %s\n", argv[optind - 1]);
   }
   else {
