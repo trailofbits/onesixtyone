@@ -1,8 +1,7 @@
 onesixtyone
 ===========
 
-[![Build Status](https://travis-ci.org/trailofbits/onesixtyone.svg)](https://travis-ci.org/trailofbits/onesixtyone)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/10906/badge.svg)](https://scan.coverity.com/projects/onesixtyone)
+[![Build Status](https://img.shields.io/github/workflow/status/trailofbits/onesixtyone/CI/master)](https://github.com/trailofbits/onesixtyone/actions?query=workflow%3ACI)
 
 The SNMP protocol is a stateless, datagram oriented protocol. An SNMP scanner is a program that sends SNMP requests to multiple IP addresses, trying different community strings and waiting for a reply. Unfortunately SNMP servers don't respond to requests with invalid community strings and the underlying UDP protocol does not reliably report closed UDP ports. This means that 'no response' from the probed IP address can mean either of the following:
 
@@ -25,7 +24,7 @@ COMPATIBLE - Software: Windows 2000 Version 5.0 (Build 2195 Uniprocessor Free)
 192.168.112.64 [public] Power Macintosh, hardware type 406; MacOS 9.0;
 OpenTransport 2.5.2
 192.168.104.254 [public] Novell NetWare 4.11  August 22, 1996
-192.168.112.83 [public] Macintosh Quadra 650, System Software 7.1 
+192.168.112.83 [public] Macintosh Quadra 650, System Software 7.1
 192.168.244.210 [public] RICOH Aficio 850 / RICOH Network Printer D model
 192.168.240.39 [public] Cisco Systems WS-C5000
 192.168.244.103 [public] HPJ3210A AdvanceStack 10BT Switching Hub Management
