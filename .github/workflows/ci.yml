@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: make onesistyone
+        run: make onesixtyone
       - name: Test
         run: |
           sudo apt install -y snmpd
