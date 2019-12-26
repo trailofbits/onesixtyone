@@ -19,5 +19,5 @@ jobs:
       - name: Test
         run: |
           sudo apt install -y snmpd
-          sudo service restart snmpd
+          sudo systemctl restart snmpd
           bash dotest.sh
