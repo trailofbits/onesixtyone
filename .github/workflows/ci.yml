@@ -18,6 +18,7 @@ jobs:
         run: make onesixtyone
       - name: Test
         run: |
+          sudo apt update
           sudo apt install -y snmpd
           sudo /etc/init.d/snmpd restart && sleep 10
           bash dotest.sh
