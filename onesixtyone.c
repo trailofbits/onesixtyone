@@ -91,7 +91,7 @@ void usage()
   printf("  -d                 debug mode, use twice for more information\n\n");
   printf("  -s                 short mode, only print IP addresses\n\n");
   printf("  -w n               wait n milliseconds (1/1000 of a second) between sending packets (default 10)\n");
-  printf("  -q                 quiet mode, do not print log to stdout, use with -l\n");
+  printf("  -q                 quiet mode, do not print log to stdout, use with -o\n");
   printf("host is either an IPv4 address or an IPv4 address and a netmask\n");
   printf("default community names are:");
   for (i = 0; i < community_count; i++) printf(" %s", community[i]);
