@@ -34,7 +34,7 @@
 #endif
 
 #define MAX_COMMUNITIES 16384
-#define MAX_HOSTS 65535
+#define MAX_HOSTS 65536
 #define MAX_COMMUNITY_SIZE 32
 
 char* snmp_errors[] = {
