@@ -143,9 +143,9 @@ void read_communities(char* filename)
   }
 
   if (c == 0 && ch == -1)
-	community_count = i - 1;
+    community_count = i - 1;
   else
-	community_count = i;
+    community_count = i;
 
   fclose(fd);
 }
