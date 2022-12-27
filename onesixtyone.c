@@ -142,7 +142,11 @@ void read_communities(char* filename)
     printf("MAX_COMMUNITIES (%d) reached. Remaining communities will be skipped \n", i);
   }
 
-  community_count = i;
+  if (c == 0 && ch == -1)
+    community_count = i - 1;
+  else
+    community_count = i;
+
   fclose(fd);
 }
 
