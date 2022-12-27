@@ -1,5 +1,5 @@
 onesixtyone: onesixtyone.c
-	gcc -o onesixtyone onesixtyone.c
+	$(CC) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS) -o onesixtyone onesixtyone.c
 
 solaris: onesixtyone.c
 	cc -o onesixtyone onesixtyone.c -lsocket -lnsl
