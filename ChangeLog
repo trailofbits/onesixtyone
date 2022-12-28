@@ -1,7 +1,9 @@
 2022-12-28	onesixtyone 0.3.4
 	* fixed support for scanning subnets (thanks to @darrenmartyn)
 	* fixed various bugs
-	* fixed -c handling when input contains a trailing newline
+	* fixed -c handling when input contains a trailing newline (thanks to
+	  @charles2910)
+	* upstreamed build system fixes (thanks to Helmut Grohne and Sophie Brun)
 
 2016-11-22	onesixtyone 0.3.3
 	* support netmasks
@@ -14,7 +16,7 @@
 
 2002-03-17	onesixtyone 0.3.1
 	* replaced in_addr_t with int, should fix compile problems on some
-	Linux distributions (thanks to skeruno)
+	  Linux distributions (thanks to skeruno)
 
 2002-03-14	onesixtyone 0.3
 
