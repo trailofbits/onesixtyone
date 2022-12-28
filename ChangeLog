@@ -1,3 +1,8 @@
+2022-12-28	onesixtyone 0.3.4
+	* fixed support for scanning subnets (thanks to @darrenmartyn)
+	* fixed various bugs
+	* fixed -c handling when input contains a trailing newline
+
 2016-11-22	onesixtyone 0.3.3
 	* support netmasks
 	* add -p, -s options for custom port and short mode respectively
