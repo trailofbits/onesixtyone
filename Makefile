@@ -18,9 +18,9 @@ clean:
 	rm -rf onesixtyone
 
 install:
-	install -D onesixtyone $(DESTDIR)$(bindir)/onesixtyone
-	install -D -m 0644 dict.txt $(DESTDIR)$(datadir)/onesixtyone/dict.txt
-	install -m 0644 -pD onesixtyone.1 $(DESTDIR)$(man1dir)/onesixtyone.1
+	install -p -D onesixtyone $(DESTDIR)$(bindir)/onesixtyone
+	install -p -D -m 0644 dict.txt $(DESTDIR)$(datadir)/onesixtyone/dict.txt
+	install -p -m 0644 -D onesixtyone.1 $(DESTDIR)$(man1dir)/onesixtyone.1
 
 
 .PHONY: solaris clean
