@@ -1,0 +1,64 @@
+.TH ONESIXTYONE
+.SH NAME
+onesixtyone \- efficient SNMP scanner
+.SH SYNOPSIS
+onesixtyone [options] <host> <community>
+.SH DESCRIPTION
+onesixtyone is an SNMP scanner which utilizes a sweep technique to achieve very
+high performance. It can scan an entire class B network in under 13 minutes.
+It can be used to discover devices responding to well-known community names
+or to mount a dictionary attack against one or more SNMP devices.
+
+onesixtyone takes a different approach to SNMP scanning. It takes advantage
+of the fact that SNMP is a connectionless protocol and sends all SNMP requests
+as fast as it can. Then the scanner waits for responses to come back and logs
+them, in a fashion similar to Nmap ping sweeps. By default onesixtyone waits
+for 10 milliseconds between sending packets, which is adequate for 100Mbs
+switched networks. The user can adjust this value via the -w command line
+option. If set to 0, the scanner will send packets as fast as the kernel would
+accept them, which may lead to packet drop.
+.SH OPTIONS
+.HP
+.B \-c <communityfile>
+file with community names to try
+.TP
+.B \-i <inputfile>
+file with target hosts
+.TP
+.B \-o <outputfile>
+output log
+.TP
+.B \-d
+debug mode, use twice for more information
+.TP
+.B \-w n
+wait n milliseconds (1/1000 of a second) between sending packets (default 10)
+.TP
+.B \-q
+quiet mode, do not print log to stdout, use with \-l
+.PP
+examples: onesixtyone \-c dict.txt 192.168.4.1 public
+.IP
+ \&onesixtyone \-c dict.txt \-i hosts \-o my.log \-w 100
+.HP
+.B \-c <communityfile>
+file with community names to try
+.TP
+.B \-i <inputfile>
+file with target hosts
+.TP
+.B \-o <outputfile>
+output log
+.TP
+.B \-d
+debug mode, use twice for more information
+.TP
+.B \-w n
+wait n milliseconds (1/1000 of a second) between sending packets (default 10)
+.TP
+.B \-q
+quiet mode, do not print log to stdout, use with \-l
+.PP
+examples: onesixtyone \-c dict.txt 192.168.4.1 public
+.IP
+\&onesixtyone \-c dict.txt \-i hosts \-o my.log \-w 100
