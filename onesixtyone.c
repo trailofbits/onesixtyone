@@ -927,7 +927,6 @@ int main(int argc, char* argv[])
 
   /* remote address */
   remote_addr.sin_family = AF_INET;
-  remote_addr.sin_port = htons(o.port);
 
   if (!o.quiet) printf("Scanning %d hosts, %d communities\n", host_count, community_count);
 
@@ -938,6 +937,7 @@ int main(int argc, char* argv[])
 
     for (i = 0; i < host_count; i++) {
       remote_addr.sin_addr.s_addr = host[i].addr;
+      remote_addr.sin_port = htons(o.port);
       if (o.debug > 1) printf("Sending to ip %s\n", inet_ntoa(*(struct in_addr*)&remote_addr.sin_addr.s_addr));
 
       ret = sendto(sock, &sendbuf, sendbuf_size, 0, (struct sockaddr*)&remote_addr, sizeof(remote_addr));
